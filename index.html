@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد آنلاین تخلفات</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+<body>
+    <div id="loading">در حال بارگذاری داده‌ها...</div>
+    
+    <script>
+        // تابع اصلی برای بارگذاری دیتای خارجی
+        async function initDashboard() {
+            try {
+                const response = await fetch('data.json');
+                const dashboardData = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                
+                // حالا بقیه توابعی که قبلاً داشتیم (updateDashboard و غیره)
+                // باید به شکلی صدا زده شوند که به dashboardData دسترسی داشته باشند
+                // ساده‌ترین راه: گذاشتن متغیر در Window یا بازنویسی توابع داخل همین بلاک
+                window.dataStore = dashboardData;
+                runApp(dashboardData); 
+            } catch (e) {
+                document.getElementById('loading').textContent = "خطا در بارگذاری فایل data.json";
+            }
+        }
+
+        function runApp(data) {
+            // تمام منطق کدهای قبلی (توابع update، chart و...) را اینجا کپی کن
+            // و در جاهایی که از dashboardData استفاده می‌کردی، از پارامتر data استفاده کن
+            console.log("دیتا با موفقیت لود شد:", data);
+        }
+
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
